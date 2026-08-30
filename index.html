@@ -581,8 +581,11 @@
       cursor: not-allowed;
     }
 
+    .admin-mode .day {
+      cursor: pointer !important;
+    }
+
     .admin-mode .day.locked {
-      cursor: pointer;
       border: 2px dashed var(--danger-color);
     }
 
@@ -604,7 +607,7 @@
     .legend-dot.selected { background: var(--green-dark); }
 
     /* ==========================================
-       FOOTER & LOGIN
+       FOOTER
        ========================================== */
     footer {
       background-color: var(--green-dark);
@@ -638,19 +641,14 @@
       gap: 0.8rem;
     }
 
-    .footer-links a, .auth-btn {
+    .footer-links a {
       color: #D2DFD6;
       text-decoration: none;
       font-size: 0.95rem;
-      background: none;
-      border: none;
-      cursor: pointer;
       font-family: inherit;
-      padding: 0;
-      text-align: left;
     }
 
-    .footer-links a:hover, .auth-btn:hover {
+    .footer-links a:hover {
       color: #FFFFFF;
     }
 
@@ -858,14 +856,14 @@
 
       <div class="step-card">
         <div class="step-number">02</div>
-        <h3>Vi spikar menyn</h3>
-        <p>Vi tar fram ett skräddarsytt upplägg och en meny som passar perfekt för dina gäster.</p>
+        <h3>Vi planerar tillsammans</h3>
+        <p>Vi tar fram ett upplägg och en meny som anpassas efter ditt event, dina gäster och dina preferenser.</p>
       </div>
 
       <div class="step-card">
         <div class="step-number">03</div>
         <h3>Njut av festen!</h3>
-        <p>Vi sköter hela pizzabaket på plats så att du kan fokusera på att ha roligt med dina gäster.</p>
+        <p>Medan vi sköter pizzabakningen, kan du fokusera på det viktigaste – att umgås med dina gäster och njuta av eventet.</p>
       </div>
     </div>
 
@@ -945,7 +943,7 @@
       
       <!-- AUTOMATISKT ADMINFÄLT NÄR INLOGGAD SOM carlssonneo20@gmail.com -->
       <div class="admin-bar" id="adminBar">
-        <span>⚙️ Adminläge aktivt (Inloggad som carlssonneo20@gmail.com)</span>
+        <span>⚙️ Adminläge aktivt (Inloggad)</span>
       </div>
 
       <div class="calendar-header">
@@ -1001,11 +999,10 @@
       </div>
 
       <div class="footer-column">
-        <h4>Kontakt & Admin</h4>
+        <h4>Kontakt</h4>
         <ul class="footer-links">
           <li><a href="mailto:Leonmodig1@gmail.com">Leonmodig1@gmail.com</a></li>
           <li><a href="https://www.instagram.com/fornoleon.se/">Instagram: @fornoleon</a></li>
-          <li><button id="authBtn" class="auth-btn">Google Admin Logga In</button></li>
         </ul>
       </div>
     </div>
@@ -1019,7 +1016,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyD1RkW3vhuf7H4ze33oLe5DNkKHtdZf9rU",
@@ -1034,7 +1031,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
 
     const bookingDocRef = doc(db, "bookings", "calendar");
     const ADMIN_EMAIL = "carlssonneo20@gmail.com";
@@ -1054,7 +1050,6 @@
     const prevMonthBtn = document.getElementById('prevMonth');
     const nextMonthBtn = document.getElementById('nextMonth');
     const adminBar = document.getElementById('adminBar');
-    const authBtn = document.getElementById('authBtn');
 
     // Mobilmeny
     const menuToggle = document.getElementById('menuToggle');
@@ -1062,31 +1057,18 @@
     menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
     document.querySelectorAll('.nav-links a').forEach(l => l.addEventListener('click', () => navLinks.classList.remove('active')));
 
-    // Hantera automatisk Google-inloggning och kontrollera om kontot är carlssonneo20@gmail.com
+    // Identifiera om den inloggade användaren är carlssonneo20@gmail.com
     onAuthStateChanged(auth, (user) => {
       if (user && user.email === ADMIN_EMAIL) {
         isAdminMode = true;
         adminBar.classList.add('active');
         calendarOverlay.classList.add('admin-mode');
-        authBtn.innerText = "Logga ut Admin";
       } else {
         isAdminMode = false;
         adminBar.classList.remove('active');
         calendarOverlay.classList.remove('admin-mode');
-        authBtn.innerText = "Google Admin Logga In";
       }
       renderCalendar();
-    });
-
-    // Knapp för Google-inloggning
-    authBtn.addEventListener('click', () => {
-      if (auth.currentUser) {
-        signOut(auth);
-      } else {
-        signInWithPopup(auth, provider).catch(error => {
-          console.error("Fel vid inloggning:", error);
-        });
-      }
     });
 
     // Realtidssynk med Firebase
