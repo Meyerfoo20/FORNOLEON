@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FORNOLEON | Äkta Napolitansk Pizzaupplevelse</title>
+  <title>FORNOLEON</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -435,7 +435,7 @@
     }
 
     /* ==========================================
-       KALENDER MODAL & ADMIN
+       KALENDER MODAL
        ========================================== */
     .modal-overlay {
       position: fixed;
@@ -514,22 +514,6 @@
       color: var(--green-dark);
     }
 
-    .admin-bar {
-      display: none;
-      background: #E2ECE5;
-      border: 2px dashed var(--green-medium);
-      padding: 0.8rem 1rem;
-      border-radius: 16px;
-      margin-bottom: 1.2rem;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--green-dark);
-    }
-
-    .admin-bar.active { display: flex; }
-
     .calendar-weekdays {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -581,14 +565,6 @@
       cursor: not-allowed;
     }
 
-    .admin-mode .day {
-      cursor: pointer !important;
-    }
-
-    .admin-mode .day.locked {
-      border: 2px dashed var(--danger-color);
-    }
-
     .calendar-legend {
       display: flex;
       justify-content: center;
@@ -605,64 +581,6 @@
     .legend-dot.available { background: var(--bg-warm); border: 1px solid var(--border-color); }
     .legend-dot.locked { background: #FCE8E8; border: 1px solid var(--danger-color); }
     .legend-dot.selected { background: var(--green-dark); }
-
-    /* ==========================================
-       FOOTER
-       ========================================== */
-    footer {
-      background-color: var(--green-dark);
-      color: #FFFFFF;
-      padding: 5rem 6% 3rem 6%;
-      border-radius: 32px 32px 0 0;
-    }
-
-    .footer-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 3rem;
-      margin-bottom: 3.5rem;
-    }
-
-    .footer-brand .logo { color: #FFFFFF; }
-    .footer-brand p { color: #D2DFD6; margin-top: 1rem; max-width: 300px; }
-
-    .footer-column h4 {
-      color: #FFFFFF;
-      font-size: 1.15rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .footer-links {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .footer-links a {
-      color: #D2DFD6;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-family: inherit;
-    }
-
-    .footer-links a:hover {
-      color: #FFFFFF;
-    }
-
-    .footer-bottom {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-      color: #A4BEAD;
-    }
 
     /* ==========================================
        ANPASSNING FÖR MOBIL & SURFPLATTA
@@ -880,7 +798,7 @@
       <div>
         <span class="subtitle">Passion För Deg</span>
         <h2>Möt Leon bakom bakbordet</h2>
-        <p>För mig handlar napolitansk pizza om genuint hantverk utan kompromisser. Degen jäser i minst 48 timmar för att uppnå den där underbara balansen mellan luftiga kanter och krispig botten.</p>
+        <p>För mig handlar napolitansk pizza om genuint hantverk utan kompromisser. Degen jäser i minst 24 timmar för att uppnå den där underbara balansen mellan luftiga kanter och krispig botten.</p>
         <p>Med vår mobila pizzeriasetup tar vi med oss doften, värmen och glädjen från en riktig italiensk pizzeria – direkt till din gata eller trädgård!</p>
       </div>
     </div>
@@ -906,7 +824,7 @@
 
           <div class="form-group">
             <label for="email">E-postadress</label>
-            <input type="email" id="email" name="email" required placeholder="namn@doman.se">
+            <input type="email" id="email" name="email" required placeholder="namn@mail.com">
           </div>
 
           <div class="form-group">
@@ -940,11 +858,6 @@
   <div class="modal-overlay" id="calendarOverlay">
     <div class="calendar-modal">
       <button type="button" class="close-modal" id="closeModalBtn">&times;</button>
-      
-      <!-- AUTOMATISKT ADMINFÄLT NÄR INLOGGAD SOM carlssonneo20@gmail.com -->
-      <div class="admin-bar" id="adminBar">
-        <span>⚙️ Adminläge aktivt (Inloggad)</span>
-      </div>
 
       <div class="calendar-header">
         <button type="button" class="nav-btn" id="prevMonth">&lt;</button>
@@ -1015,8 +928,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyD1RkW3vhuf7H4ze33oLe5DNkKHtdZf9rU",
@@ -1030,16 +942,13 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const auth = getAuth(app);
 
     const bookingDocRef = doc(db, "bookings", "calendar");
-    const ADMIN_EMAIL = "carlssonneo20@gmail.com";
 
     const monthNames = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"];
     let currentDate = new Date();
     let selectedDateStr = "";
     let lockedDates = [];
-    let isAdminMode = false;
 
     const calendarOverlay = document.getElementById('calendarOverlay');
     const dateDisplayInput = document.getElementById('dateDisplay');
@@ -1049,7 +958,6 @@
     const calendarDaysGrid = document.getElementById('calendarDaysGrid');
     const prevMonthBtn = document.getElementById('prevMonth');
     const nextMonthBtn = document.getElementById('nextMonth');
-    const adminBar = document.getElementById('adminBar');
 
     // Mobilmeny
     const menuToggle = document.getElementById('menuToggle');
@@ -1057,21 +965,7 @@
     menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
     document.querySelectorAll('.nav-links a').forEach(l => l.addEventListener('click', () => navLinks.classList.remove('active')));
 
-    // Identifiera om den inloggade användaren är carlssonneo20@gmail.com
-    onAuthStateChanged(auth, (user) => {
-      if (user && user.email === ADMIN_EMAIL) {
-        isAdminMode = true;
-        adminBar.classList.add('active');
-        calendarOverlay.classList.add('admin-mode');
-      } else {
-        isAdminMode = false;
-        adminBar.classList.remove('active');
-        calendarOverlay.classList.remove('admin-mode');
-      }
-      renderCalendar();
-    });
-
-    // Realtidssynk med Firebase
+    // Realtidssynk med Firebase (hämtar bokade/låsta datum)
     onSnapshot(bookingDocRef, (snapshot) => {
       if (snapshot.exists()) {
         lockedDates = snapshot.data().lockedDates || [];
@@ -1136,22 +1030,14 @@
         if (isLocked) dayDiv.classList.add('locked');
         if (isSelected) dayDiv.classList.add('selected');
 
-        dayDiv.addEventListener('click', async () => {
-          if (isAdminMode) {
-            if (isLocked) {
-              await updateDoc(bookingDocRef, { lockedDates: arrayRemove(dateStr) });
-            } else {
-              await updateDoc(bookingDocRef, { lockedDates: arrayUnion(dateStr) });
-            }
-          } else {
-            if (isLocked) return;
+        dayDiv.addEventListener('click', () => {
+          if (isLocked) return;
 
-            selectedDateStr = dateStr;
-            dateValueInput.value = dateStr;
-            dateDisplayInput.value = `${day} ${monthNames[month]} ${year}`;
-            renderCalendar();
-            calendarOverlay.classList.remove('active');
-          }
+          selectedDateStr = dateStr;
+          dateValueInput.value = dateStr;
+          dateDisplayInput.value = `${day} ${monthNames[month]} ${year}`;
+          renderCalendar();
+          calendarOverlay.classList.remove('active');
         });
 
         calendarDaysGrid.appendChild(dayDiv);
