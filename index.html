@@ -182,9 +182,6 @@
       justify-content: center;
     }
 
-    /* ==========================================
-       HERO SEKTION
-       ========================================== */
     .hero {
       padding: 10rem 6% 6rem 6%;
       max-width: 1200px;
@@ -236,13 +233,11 @@
       display: block;
     }
 
-    /* ==========================================
-       SEKTION 1: UPPREVELSEN
-       ========================================== */
     .experience-section {
       background-color: var(--bg-alt);
       padding: 6rem 6%;
-      border-y: 1px solid var(--border-color);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
     }
 
     .experience-container {
@@ -296,9 +291,6 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.06);
     }
 
-    /* ==========================================
-       SEKTION 2: SÅ GÅR DET TILL
-       ========================================== */
     .how-it-works {
       padding: 6rem 6%;
       max-width: 1200px;
@@ -342,9 +334,6 @@
       line-height: 1;
     }
 
-    /* ==========================================
-       OM LEON / GALLERI
-       ========================================== */
     .about-gallery-section {
       background-color: var(--bg-alt);
       padding: 6rem 6%;
@@ -367,9 +356,6 @@
       box-shadow: 0 15px 35px rgba(0,0,0,0.07);
     }
 
-    /* ==========================================
-       KONTAKT & BOKNING
-       ========================================== */
     .contact-section {
       padding: 6rem 6%;
       max-width: 950px;
@@ -434,9 +420,6 @@
       background-position: right 1.2rem center;
     }
 
-    /* ==========================================
-       KALENDER MODAL
-       ========================================== */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -582,7 +565,74 @@
     .legend-dot.locked { background: #FCE8E8; border: 1px solid var(--danger-color); }
     .legend-dot.selected { background: var(--green-dark); }
 
-    
+    footer {
+      background-color: var(--green-dark);
+      color: #FFFFFF;
+      padding: 5rem 6% 3rem 6%;
+      border-radius: 32px 32px 0 0;
+      margin-top: 4rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .footer-brand .logo {
+      color: #FFFFFF;
+      font-size: 2.1rem;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .footer-brand p {
+      color: #D2DFD6;
+      margin-top: 1rem;
+      max-width: 300px;
+    }
+
+    .footer-column h4 {
+      color: #FFFFFF;
+      font-size: 1.15rem;
+      margin-bottom: 1.2rem;
+      font-family: var(--font-heading);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .footer-links a {
+      color: #D2DFD6;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: #FFFFFF;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: #A4BEAD;
+    }
+
     @media (max-width: 768px) {
       .mobile-toggle { display: flex; }
 
@@ -611,8 +661,7 @@
         align-items: center;
         text-align: center;
         background: linear-gradient(180deg, rgba(36, 52, 41, 0.82) 0%, rgba(20, 30, 23, 0.88) 100%), 
-                    url('images/img3.png') center/cover no-repeat;
-        border-radius: 0 0 0px 0px;
+        url('images/img3.png') center/cover no-repeat;
         margin-bottom: 1rem;
       }
 
@@ -796,7 +845,7 @@
       <div>
         <span class="subtitle">Passion För Deg</span>
         <h2>Möt Leon bakom bakbordet</h2>
-        <p>För mig handlar napolitansk pizza om genuint hantverk utan kompromisser. Degen jäser i minst 24 timmar för att uppnå den där underbara balansen mellan luftiga kanter och krispig botten.</p>
+        <p>För mig handlar napolitansk pizza om genuint hantverk utan kompromisser. Degen jäser i minst 48 timmar för att uppnå den där underbara balansen mellan luftiga kanter och krispig botten.</p>
         <p>Med vår mobila pizzeriasetup tar vi med oss doften, värmen och glädjen från en riktig italiensk pizzeria – direkt till din gata eller trädgård!</p>
       </div>
     </div>
@@ -963,7 +1012,7 @@
     menuToggle.addEventListener('click', () => navLinks.classList.toggle('active'));
     document.querySelectorAll('.nav-links a').forEach(l => l.addEventListener('click', () => navLinks.classList.remove('active')));
 
-    // Realtidssynk med Firebase (hämtar bokade/låsta datum)
+    // Realtidssynk med Firebase
     onSnapshot(bookingDocRef, (snapshot) => {
       if (snapshot.exists()) {
         lockedDates = snapshot.data().lockedDates || [];
